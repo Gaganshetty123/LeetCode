@@ -1,0 +1,17 @@
+public class Solution {
+    public string LargestNumber(int[] nums) {
+        // Convert the integers to strings
+        var numStrs = nums.Select(num => num.ToString()).ToArray();
+        
+        // Sort the strings based on the custom comparator
+        Array.Sort(numStrs, (a, b) => (b + a).CompareTo(a + b));
+        
+        // If the largest number is "0", the result is "0"
+        if (numStrs[0] == "0") {
+            return "0";
+        }
+        
+        // Concatenate the sorted strings
+        return string.Join("", numStrs);
+    }
+}
