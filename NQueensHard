@@ -1,0 +1,44 @@
+public class Solution {
+    public IList<IList<string>> SolveNQueens(int n) {
+        IList<IList<string>> result = new List<IList<string>>();
+        int[] queens = new int[n];
+        Array.Fill(queens, -1);
+        Solve(result, queens, n, 0);
+        return result;
+    }
+
+    private void Solve(IList<IList<string>> result, int[] queens, int n, int row) {
+        if (row == n) {
+            result.Add(GenerateBoard(queens, n));
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (IsValid(queens, row, col)) {
+                queens[row] = col;
+                Solve(result, queens, n, row + 1);
+                queens[row] = -1;
+            }
+        }
+    }
+
+    private bool IsValid(int[] queens, int row, int col) {
+        for (int i = 0; i < row; i++) {
+            if (queens[i] == col || queens[i] - i == col - row || queens[i] + i == col + row) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private IList<string> GenerateBoard(int[] queens, int n) {
+        IList<string> board = new List<string>();
+        for (int i = 0; i < n; i++) {
+            char[] row = new char[n];
+            Array.Fill(row, '.');
+            row[queens[i]] = 'Q';
+            board.Add(new string(row));
+        }
+        return board;
+    }
+}
