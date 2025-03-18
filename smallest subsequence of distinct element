@@ -1,0 +1,28 @@
+public class Solution {
+    public string SmallestSubsequence(string s) {
+        int[] count = new int[26];
+        bool[] visited = new bool[26];
+        Stack<char> stack = new Stack<char>();
+
+        foreach (char c in s) {
+            count[c - 'a']++;
+        }
+
+        foreach (char c in s) {
+            count[c - 'a']--;
+
+            if (visited[c - 'a']) continue;
+
+            while (stack.Count > 0 && stack.Peek() > c && count[stack.Peek() - 'a'] > 0) {
+                visited[stack.Pop() - 'a'] = false;
+            }
+
+            stack.Push(c);
+            visited[c - 'a'] = true;
+        }
+
+        char[] result = stack.ToArray();
+        Array.Reverse(result);
+        return new string(result);
+    }
+}
